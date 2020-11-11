@@ -65,6 +65,10 @@ export default {
   build: {
   },
 
+  serverMiddleware: [
+    { path: "/api", handler: "~/server/index.js" },
+  ],
+  
   auth: {
     //Options
   }

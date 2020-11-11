@@ -5,6 +5,13 @@ if (dotenv.error) { //throw an error if the environment vars failed to load
 }
 
 const config = {
+	mysql: {
+		connectionLimit: 10,
+		host: process.env.MYSQL_HOST,
+		user: process.env.MYSQL_USER,
+		password: process.env.MYSQL_PASS,
+		database: process.env.MYSQL_DB,
+	}
 }
 
 module.exports = config;

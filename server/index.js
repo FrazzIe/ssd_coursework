@@ -1,3 +1,5 @@
+const config = require("./config");
+const mysql = require("./models/mysql");
 const express = require("express");
 
 const app = express();

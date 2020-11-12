@@ -46,7 +46,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
@@ -70,6 +70,19 @@ export default {
   ],
   
   auth: {
-    //Options
+    redirect: {
+      login: "/login",
+      home: "/",
+      logout: "/login",
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: "/api/auth/login", method: "post", propertyName: "token" },
+          logout: { url: "/api/auth/logout", method: "post" },
+          user: { url: "/api/auth/user", method: "get", propertyName: "user" }
+        }
+      }
+    }
   }
 }

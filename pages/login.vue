@@ -34,7 +34,8 @@
 				</v-form>
 			</v-card> 
 	</v-col>
-	<snack-bar :snack-message.sync="snackMessage" :snack-color="snackColor"></snack-bar>
+	<snack-bar :snack-message.sync="snack.message" :snack-color="snack.color"></snack-bar>
+	<loader :message="loader.message" :show="loader.show"></loader>
   </v-row>
 </template>
 
@@ -43,10 +44,12 @@
 
 <script>
 import snackBar from "@/components/snackBar";
+import loader from "@/components/loader";
 
 export default {
 	components: {
 		snackBar,
+		loader,
 	},
 	layout: "auth",
 	data: () => ({
@@ -54,19 +57,30 @@ export default {
 			username: "",
 			password: "",
 		},
-		snackMessage: "",
-		snackColor: "",
+		snack: {
+			message: "",
+			color: "",
+		},
+		loader: {
+			message: "",
+			show: false,
+		}
 	}),
 	methods: {
 		login() {
 			if (this.$refs.form.validate()) {
+				this.loader.message = "Logging in..";
+				this.loader.show = true;
+
 				this.$auth.loginWith("local", { data: this.input }).then((resp) => {
+
 					console.log(resp);
 				}).catch((error) => {
+					this.loader.show = false;
 					if (error.response && error.response.data && error.response.data.error) {
 						console.log(error.response.data.error);
-						this.snackColor = "error";
-						this.snackMessage = error.response.data.error;
+						this.snack.color = "error";
+						this.snack.message = error.response.data.error;
 					} else
 						console.log(error.message);
 				});
@@ -74,11 +88,15 @@ export default {
 		},
 		register() {
 			if (this.$refs.form.validate()) {
+				this.loader.message = "Registering..";
+				this.loader.show = true;
+
 				this.$axios.post("/api/auth/register", { data: this.input }).then((resp) => {
+					this.loader.show = false;
 					if (resp && resp.data) {
 						if (resp.data.error) {
-							this.snackColor = "error";
-							this.snackMessage = resp.data.error;
+							this.snack.color = "error";
+							this.snack.message = resp.data.error;
 							console.log(resp.data.error);
 							return;
 						}
@@ -86,10 +104,11 @@ export default {
 						this.login();
 					}
 				}).catch((error) => {
+					this.loader.show = false;
 					if (error.response && error.response.data && error.response.data.error) {
 						console.log(error.response.data.error);
-						this.snackColor = "error";
-						this.snackMessage = error.response.data.error;
+						this.snack.color = "error";
+						this.snack.message = error.response.data.error;
 					} else
 						console.log(error.message);
 				})

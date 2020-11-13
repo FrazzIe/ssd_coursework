@@ -62,6 +62,11 @@ app.post("/auth/register", function(req, res) {
 	}
 });
 
+app.post("/auth/logout", function(req, res) {
+	req.logout();
+	res.status(200).json({});
+});
+
 module.exports = {
 	path: "/api",
 	handler: app

@@ -52,6 +52,8 @@ export default {
 		loader,
 	},
 	layout: "auth",
+	middleware: "auth",
+	auth: "guest",
 	data: () => ({
 		input: {
 			username: "",

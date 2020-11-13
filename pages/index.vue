@@ -17,6 +17,7 @@
 import { mapState, mapGetters } from "vuex";
 
 export default {
+	middleware: "auth",
 	data: () => ({
 
 	}),

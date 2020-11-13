@@ -49,30 +49,26 @@ export default {
 		},
 	}),
 	methods: {
-		async login() {
+		login() {
 			if (this.$refs.form.validate()) {
-				try {
-					const response = await this.$auth.loginWith("local", { data: this.input	});
-					console.log(response);
-				} catch(error) {
-					if (error.response && error.response.data) {
-						console.log(error.response.data.error);
-					}
-				}
+				this.$auth.loginWith("local", { data: this.input }).then((resp) => {
+					console.log(resp);
+				}).catch((error) => {
+					if (error.response && error.response.data && error.response.error)
+						console.log(error.response.error);
+					else
+						console.log(error.message);
+				});
 			}
 		},
-		async register() {
+		register() {
 			if (this.$refs.form.validate()) {
-				try {
-					const response = await this.$axios.post("/api/auth/register", { data: this.input });
-					if (response && response.data && response.data.error) {
-						console.log(response.data.error);
-					}
-				} catch(error) {
-					if (error.response && error.response.data) {
-						console.log(error.response.data.error);
-					}
-				}
+				this.$axios.post("/api/auth/register", { data: this.input }).then((resp) => {
+					if (resp && resp.data && resp.data.error)
+						console.log(resp.data.error);
+				}).catch((error) => {
+					console.log(error.message);
+				})
 			}
 		},
 		usernameCheck() {

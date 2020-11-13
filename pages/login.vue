@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col sm="7" md="5" lg="4" xl="2">
+	<v-col sm="7" md="5" lg="4" xl="3">
 			<v-card class="elevation-12" tile>
 				<v-toolbar class="transparent" flat dense>
 					<v-toolbar-title>Bug Tracker</v-toolbar-title>
@@ -33,20 +33,29 @@
 					</v-card-actions>
 				</v-form>
 			</v-card> 
-    </v-col>
+	</v-col>
+	<snack-bar :snack-message.sync="snackMessage" :snack-color="snackColor"></snack-bar>
   </v-row>
 </template>
 
 <style>
 </style>
+
 <script>
+import snackBar from "@/components/snackBar";
+
 export default {
-  layout: "auth",
+	components: {
+		snackBar,
+	},
+	layout: "auth",
 	data: () => ({
 		input: {
 			username: "",
 			password: "",
 		},
+		snackMessage: "",
+		snackColor: "",
 	}),
 	methods: {
 		login() {
@@ -54,9 +63,11 @@ export default {
 				this.$auth.loginWith("local", { data: this.input }).then((resp) => {
 					console.log(resp);
 				}).catch((error) => {
-					if (error.response && error.response.data && error.response.error)
-						console.log(error.response.error);
-					else
+					if (error.response && error.response.data && error.response.data.error) {
+						console.log(error.response.data.error);
+						this.snackColor = "error";
+						this.snackMessage = error.response.data.error;
+					} else
 						console.log(error.message);
 				});
 			}
@@ -64,10 +75,23 @@ export default {
 		register() {
 			if (this.$refs.form.validate()) {
 				this.$axios.post("/api/auth/register", { data: this.input }).then((resp) => {
-					if (resp && resp.data && resp.data.error)
-						console.log(resp.data.error);
+					if (resp && resp.data) {
+						if (resp.data.error) {
+							this.snackColor = "error";
+							this.snackMessage = resp.data.error;
+							console.log(resp.data.error);
+							return;
+						}
+
+						this.login();
+					}
 				}).catch((error) => {
-					console.log(error.message);
+					if (error.response && error.response.data && error.response.data.error) {
+						console.log(error.response.data.error);
+						this.snackColor = "error";
+						this.snackMessage = error.response.data.error;
+					} else
+						console.log(error.message);
 				})
 			}
 		},

@@ -5,7 +5,7 @@ const passport = require("passport");
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 const auth = require("./models/auth")(config.jwt.secret, mysql, passport, argon2);
-
+const permission = require("./models/permissions");
 const app = express();
 
 app.use(express.json());

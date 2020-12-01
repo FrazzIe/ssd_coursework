@@ -1,7 +1,6 @@
 <template>
 	<v-app>
 		<v-app-bar fixed app>
-			<v-app-bar-nav-icon></v-app-bar-nav-icon>
 			<nuxt-link to="/" class="pointer" tag="v-toolbar-title">
 				Bug Tracker
 			</nuxt-link>

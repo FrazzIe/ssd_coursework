@@ -1,6 +1,6 @@
 <template>
-  <v-row justify="center" align="center">
-	<v-col sm="7" md="6" lg="5" xl="4">
+	<v-row justify="center" align="center">
+		<v-col sm="7" md="6" lg="5" xl="4">
 			<v-card class="elevation-12" tile>
 				<v-toolbar class="transparent" flat dense>
 					<v-toolbar-title>Open a ticket</v-toolbar-title>
@@ -23,10 +23,10 @@
 					</v-card-actions>
 				</v-form>
 			</v-card> 
-	</v-col>
-	<snack-bar :snack-message.sync="snack.message" :snack-color="snack.color"></snack-bar>
-	<loader :message="loader.message" :show="loader.show"></loader>
-  </v-row>
+		</v-col>
+		<snack-bar :snack-message.sync="snack.message" :snack-color="snack.color"></snack-bar>
+		<loader :message="loader.message" :show="loader.show"></loader>
+	</v-row>
 </template>
 
 <style>

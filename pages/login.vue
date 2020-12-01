@@ -1,42 +1,42 @@
 <template>
-  <v-row justify="center" align="center">
-	<v-col sm="7" md="5" lg="4" xl="3">
-			<v-card class="elevation-12" tile>
-				<v-toolbar class="transparent" flat dense>
-					<v-toolbar-title>Bug Tracker</v-toolbar-title>
-				</v-toolbar>
+	<v-row justify="center" align="center">
+		<v-col sm="7" md="5" lg="4" xl="3">
+				<v-card class="elevation-12" tile>
+					<v-toolbar class="transparent" flat dense>
+						<v-toolbar-title>Bug Tracker</v-toolbar-title>
+					</v-toolbar>
 
-				<v-divider></v-divider>
-				<v-form ref="form" @submit.prevent="login">
-					<v-card-text>						
-						<v-text-field prepend-icon="mdi-account" label="Username" v-model="input.username" 
-							:rules="[
-								() => !!input.username || 'A username is required',
-								() => !!input.username && input.username.length <= 30 || 'Username must be less than 30 characters',
-								usernameCheck,
-							]" counter="30"></v-text-field>
-						<v-text-field prepend-icon="mdi-lock" label="Password" v-model="input.password"
-							:rules="[
-								() => !!input.password || 'A password is required',
-								() => !!input.password && input.password.length >= 8 || 'Password must be at least 8 characters long',
-								passwordCheck,
-							]"
-						></v-text-field>						
-					</v-card-text>
-					
 					<v-divider></v-divider>
+					<v-form ref="form" @submit.prevent="login">
+						<v-card-text>						
+							<v-text-field prepend-icon="mdi-account" label="Username" v-model="input.username" 
+								:rules="[
+									() => !!input.username || 'A username is required',
+									() => !!input.username && input.username.length <= 30 || 'Username must be less than 30 characters',
+									usernameCheck,
+								]" counter="30"></v-text-field>
+							<v-text-field prepend-icon="mdi-lock" label="Password" v-model="input.password"
+								:rules="[
+									() => !!input.password || 'A password is required',
+									() => !!input.password && input.password.length >= 8 || 'Password must be at least 8 characters long',
+									passwordCheck,
+								]"
+							></v-text-field>						
+						</v-card-text>
+						
+						<v-divider></v-divider>
 
-					<v-card-actions>
-						<v-btn color="primary" text @click="register">Register</v-btn>
-						<v-spacer></v-spacer>
-						<v-btn type="submit" color="success" text>Login</v-btn>
-					</v-card-actions>
-				</v-form>
-			</v-card> 
-	</v-col>
-	<snack-bar :snack-message.sync="snack.message" :snack-color="snack.color"></snack-bar>
-	<loader :message="loader.message" :show="loader.show"></loader>
-  </v-row>
+						<v-card-actions>
+							<v-btn color="primary" text @click="register">Register</v-btn>
+							<v-spacer></v-spacer>
+							<v-btn type="submit" color="success" text>Login</v-btn>
+						</v-card-actions>
+					</v-form>
+				</v-card> 
+		</v-col>
+		<snack-bar :snack-message.sync="snack.message" :snack-color="snack.color"></snack-bar>
+		<loader :message="loader.message" :show="loader.show"></loader>
+	</v-row>
 </template>
 
 <style>

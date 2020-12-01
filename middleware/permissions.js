@@ -26,7 +26,7 @@ const routeOption = (route, key, value, checkArray = false) => {
 						ctor => ctor.options && ctor.options[key] === value
 					)
 				)
-					}
+			}
 		}
 	})
 }
@@ -41,7 +41,7 @@ const getMatchedComponents = (route, matches = false) => {
 }
 
 export default function (context) {
-	if (routeOption(context.route, "auth", false) || routeOption(context.route, "auth", "guest") || routeOption(context.route, "permission", false)) {
+	if (routeOption(context.route, "auth", false) || routeOption(context.route, "auth", "guest") || routeOption(context.route, "permissions", false)) {
 		return;
 	}
 
@@ -58,7 +58,7 @@ export default function (context) {
 
 	const user = context.$auth.$state.user;
 
-	if (!user.scope || !routeOption(context.route, "permission", user.scope, true)) {
+	if (!user.scope || !routeOption(context.route, "permissions", user.scope, true)) {
 		context.$auth.redirect("home");
 	}
 }

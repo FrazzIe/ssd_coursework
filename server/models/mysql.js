@@ -3,8 +3,8 @@ const config = require("../config"); //import dependencies
 
 var pool = mysql.createPool(config.mysql); //create connection pool
 var queries = { //list of mysql queries
-	getUser: "SELECT users.id, users.username, users.password FROM users WHERE users.username = ?",
-	getUserById: "SELECT users.id, users.username FROM users WHERE users.id = ?",
+	getUser: "SELECT users.id, users.username, users.password, users.group FROM users WHERE users.username = ?",
+	getUserById: "SELECT users.id, users.username, users.group FROM users WHERE users.id = ?",
 	createUser: "INSERT INTO users (`username`, `password`) VALUES (?, ?)",
 }
 

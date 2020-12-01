@@ -2,6 +2,14 @@ var LocalStrategy = require("passport-local").Strategy;
 var JwtStrategy = require("passport-jwt").Strategy;
 var ExtractJwt = require("passport-jwt").ExtractJwt;
 
+function getUserObject(data) {
+	return {
+		id: data.id,
+		name: data.username,
+		scope: data.group,
+	}
+}
+
 module.exports = function(jwtSecret, mysql, passport, argon2) {
 	// Configure the local strategy for use by Passport.
 	//
@@ -14,7 +22,7 @@ module.exports = function(jwtSecret, mysql, passport, argon2) {
 			if (typeof result[0] !== "undefined") { //found user
 				argon2.verify(result[0].password, password).then((matches) => {
 					if (matches) { //password matches
-						cb(null, result[0], "ok");
+						cb(null, getUserObject(result[0]), "ok");
 					} else { //doesn't match
 						cb(null, false, {
 							message: "You have entered an incorrect password!"
@@ -40,7 +48,7 @@ module.exports = function(jwtSecret, mysql, passport, argon2) {
 	passport.use(new JwtStrategy(jwtOptions, function(payload, cb) {
 		mysql.query(mysql.queries.getUserById, [payload]).then((result) => { //find user
 			if (typeof result[0] !== "undefined") //found user
-				return cb(null, result[0]);
+				return cb(null, getUserObject(result[0]));
 
 			return cb(null, false, {
 				message: "Invalid token!"

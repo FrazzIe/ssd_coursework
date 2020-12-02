@@ -55,6 +55,20 @@
 
 				<v-toolbar class="transparent" flat dense>
 					<v-toolbar-title>Comments</v-toolbar-title>
+					<v-spacer></v-spacer>
+					<template v-if="ticket.status !== 2">
+						<v-tooltip right>
+							<template v-slot:activator="{ on, attrs }">
+								<v-btn icon v-bind="attrs" v-on="on" @click="commentDialog = true">
+									<v-icon color="primary">mdi-plus</v-icon>
+								</v-btn>
+							</template>
+							<span>Add comment</span>
+						</v-tooltip>
+					</template>
+					<template v-else>
+						<v-icon color="error">mdi-lock</v-icon>
+					</template>
 				</v-toolbar>
 
 				<v-divider></v-divider>
@@ -99,6 +113,7 @@ export default {
 		status: ["Open", "Solved", "Closed"],
 		phase: ["Development", "Testing", "Production"],
 		priority: ["Low", "Medium", "High"],
+		commentDialog: false,
 		snack: {
 			message: "",
 			color: "",

@@ -109,10 +109,32 @@ export default {
 				this.loader.show = true;
 
 				this.$axios.$post("/api/tickets/new", {
-					phase: this.input.phase.value,
-					title: this.input.title,
-					description: this.input.description,
-					priority: this.input.priority.value,
+					data: {
+						phase: this.input.phase.value,
+						title: this.input.title,
+						description: this.input.description,
+						priority: this.input.priority.value,
+					},
+				}).then((resp) => {
+					this.loader.show = false;
+					if (resp) {
+						if (resp.error) {
+							this.snack.color = "error";
+							this.snack.message = resp.error;
+							console.log(resp.error);
+							return;
+						}
+
+						this.$router.push({	path: "/tickets/view/" + resp.id });
+					}
+				}).catch((error) => {
+					this.loader.show = false;
+					if (error.response && error.response.data && error.response.data.error) {
+						console.log(error.response.data.error);
+						this.snack.color = "error";
+						this.snack.message = error.response.data.error;
+					} else
+						console.log(error.message);
 				});
 			}
 		},

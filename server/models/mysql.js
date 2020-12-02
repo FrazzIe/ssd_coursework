@@ -5,7 +5,10 @@ var pool = mysql.createPool(config.mysql); //create connection pool
 var queries = { //list of mysql queries
 	getUser: "SELECT users.id, users.username, users.password, users.group FROM users WHERE users.username = ?",
 	getUserById: "SELECT users.id, users.username, users.group FROM users WHERE users.id = ?",
+	getTicketAssignee: "SELECT users.id FROM users WHERE users.group = 'developer' ORDER BY RAND() LIMIT 1",
 	createUser: "INSERT INTO users (`username`, `password`) VALUES (?, ?)",
+	createTicket: "INSERT INTO tickets (`creator_id`, `assigned_id`, `title`, `discover_phase`, `priority`) VALUES (?, ?, ?, ?, ?)",
+	createComment: "INSERT INTO ticket_comments (`ticket_id`, `creator_id`, `comment`) VALUES (?, ?, ?)",
 }
 
 function execute(sql, params) { //asynchronous sql execute function

@@ -11,11 +11,11 @@ class Permission {
 
 	check(group, perm) {
 		if (!this.#groups.includes(group))
-			return ["Invalid group", false];
+			return false
 		if (!this.#permissions[perm])
-			return ["Invalid permission", false];
+			return false
 		
-		return [false, this.#permissions[perm].includes(group)];
+		return this.#permissions[perm].includes(group);
 	}
 }
 

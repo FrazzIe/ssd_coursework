@@ -6,6 +6,8 @@ class Permission {
 		this.#groups = ["admin", "developer", "tester", "client", "user"];
 		this.#permissions = {
 			canCreateTicket: ["admin", "developer", "tester", "client"],
+			useDevelopmentPhase: ["admin", "developer"],
+			useTestingPhase: ["admin", "developer", "tester"],
 		};
 	}
 

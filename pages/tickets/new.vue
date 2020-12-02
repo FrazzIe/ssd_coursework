@@ -9,7 +9,7 @@
 				<v-divider></v-divider>
 				<v-form ref="form" @submit.prevent="createTicket">
 					<v-card-text>
-						<v-select label="Discovery Phase" placeholder="What phase was the issue discovered?" :items="phases" item-text="text" item-value="value" return-object v-model="input.phase"
+						<v-select label="Discovery Phase" placeholder="What phase was the issue discovered?" :items="allowedPhases" item-text="text" item-value="value" return-object v-model="input.phase"
 							:rules="[
 								() => !!input.phase || 'A discovery phase is required',
 							]"
@@ -53,6 +53,7 @@
 </style>
 
 <script>
+import { mapGetters } from "vuex";
 import snackBar from "@/components/snackBar";
 import loader from "@/components/loader";
 
@@ -90,6 +91,17 @@ export default {
 			show: false,
 		}
 	}),
+	computed: {
+		...mapGetters(["loggedInUser"]),
+		allowedPhases() {
+			if (this.$permission.check(this.loggedInUser.scope, "useDevelopmentPhase"))
+				return this.phases;
+			if (this.$permission.check(this.loggedInUser.scope, "useTestingPhase"))
+				return this.phases.slice(1);
+
+			return this.phases.slice(2);
+		}
+	},
 	methods: {
 		createTicket() {
 			if (this.$refs.form.validate()) {

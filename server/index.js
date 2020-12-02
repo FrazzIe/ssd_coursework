@@ -27,7 +27,7 @@ app.post("/auth/login", (req, res) => { //When /login is requested by a user
 app.get("/auth/user", (req, res) => {
 	passport.authenticate("jwt", { session: false }, (err, user, info) => {
 		if (err) //if there is an error then
-		return res.status(500).json({ error: err });
+			return res.status(500).json({ error: err });
 
 		if (!user)
 			return res.status(403).json({ error: info.message });

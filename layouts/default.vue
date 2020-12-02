@@ -7,7 +7,7 @@
 			<v-spacer></v-spacer>
 			<v-toolbar-items>
 				<template v-if="isAuthenticated">
-					<v-btn v-if="canAccess('canCreateTicket')" elevation="0" to="/tickets/new" nuxt exact>
+					<v-btn v-if="this.$store.dispatch('canAccess', 'canCreateTicket')" elevation="0" to="/tickets/new" nuxt exact>
 						<v-icon left>mdi-file-document-edit</v-icon>
 						OPEN TICKET
 					</v-btn>
@@ -71,7 +71,7 @@
 </style>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
 	data: () => ({
@@ -81,16 +81,7 @@ export default {
 		...mapGetters(["isAuthenticated", "loggedInUser"]),
 	},
 	methods: {
-		canAccess(permission) {
-			const [err, result] = this.$permission.check(this.loggedInUser.scope, permission);
-
-			if (err) {
-				console.log(err);
-				return false;
-			}
-
-			return result;
-		},
+		...mapActions(["canAccess"]),
 		capitalise(str) {
 			if (typeof str !== "string")
 				return "";

@@ -45,8 +45,8 @@ export default {
     validate({ params }) {
         return !isNaN(+params.id);
     },
-    async asyncData({ params, error }) {
-        const { ticket } = await this.$axios.$get(`/api/tickets/view/${+params.id}`);
+    async asyncData({ params, error, $axios }) {
+        const { ticket } = await $axios.$get(`/api/tickets/view/${+params.id}`);
         return ticket;
     }
 }

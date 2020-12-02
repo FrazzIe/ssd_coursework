@@ -9,10 +9,30 @@
 				<v-divider></v-divider>
 				<v-form ref="form" @submit.prevent="createTicket">
 					<v-card-text>
-						<v-select label="Discovery Phase" placeholder="What phase was the issue discovered?" :items="phases" item-text="text" item-value="value" v-model="input.type"></v-select>
-						<v-text-field label="Title" placeholder="Something doesn't work..." v-model="input.title"></v-text-field>
-						<v-textarea label="Description" placeholder="Description of the issue and how it can be reproduced..." counter v-model="input.description"></v-textarea>
-						<v-select label="Priority Level" placeholder="How urgent is the issue?" :items="priority" item-text="text" item-value="value" v-model="input.priority"></v-select>
+						<v-select label="Discovery Phase" placeholder="What phase was the issue discovered?" :items="phases" item-text="text" item-value="value" return-object v-model="input.phase"
+							:rules="[
+								() => !!input.phase || 'A discovery phase is required',
+							]"
+						></v-select>
+						<v-text-field label="Title" placeholder="Something doesn't work..." v-model="input.title"
+							:rules="[
+								() => !!input.title || 'A title is required',
+								() => !!input.title && input.title.length >= 4 || 'Title must be at least 4 characters long',
+								() => !!input.title && input.title.length <= 125 || 'Title cannot contain more than 125 characters',
+							]"
+						></v-text-field>
+						<v-textarea label="Description" placeholder="Description of the issue and how it can be reproduced..." counter v-model="input.description"
+							:rules="[
+								() => !!input.description || 'A description of the issue is required',
+								() => !!input.description && input.description.length >= 50 || 'Description must be at least 50 characters long',
+								() => !!input.description && input.description.length <= 2000 || 'Description cannot contain more than 2000 characters',
+							]"
+						></v-textarea>
+						<v-select label="Priority Level" placeholder="How urgent is the issue?" :items="priority" item-text="text" item-value="value" return-object v-model="input.priority"
+							:rules="[
+								() => !!input.priority || 'A priority level is required',
+							]"
+						></v-select>
 					</v-card-text>
 
 					<v-divider></v-divider>
@@ -46,7 +66,7 @@ export default {
     permissions: false,
 	data: () => ({
 		input: {
-			type: null,
+			phase: null,
 			title: "",
 			description: "",
 			priority: null,

@@ -7,6 +7,7 @@ var queries = { //list of mysql queries
 	getUserById: "SELECT users.id, users.username, users.group FROM users WHERE users.id = ?",
 	getTicketAssignee: "SELECT users.id FROM users WHERE users.group = 'developer' ORDER BY RAND() LIMIT 1",
 	getTicketById: "SELECT tickets.id, tickets.creator_id, tickets.assigned_id, UNIX_TIMESTAMP(tickets.created_at), tickets.title, tickets.status, tickets.discover_phase, tickets.priority FROM tickets WHERE tickets.id = ?",
+	getTicketComments: "SELECT UNIX_TIMESTAMP(ticket_comments.created_at), ticket_comments.comment, users.username, users.group JOIN users ON (ticket_comments.creator_id = users.id) WHERE ticket_comments.ticket_id = ?",
 	createUser: "INSERT INTO users (`username`, `password`) VALUES (?, ?)",
 	createTicket: "INSERT INTO tickets (`creator_id`, `assigned_id`, `title`, `discover_phase`, `priority`) VALUES (?, ?, ?, ?, ?)",
 	createComment: "INSERT INTO ticket_comments (`ticket_id`, `creator_id`, `comment`) VALUES (?, ?, ?)",

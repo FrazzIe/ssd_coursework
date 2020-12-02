@@ -92,8 +92,18 @@ export default {
 	}),
 	methods: {
 		createTicket() {
+			if (this.$refs.form.validate()) {
+				this.loader.message = "Creating ticket..";
+				this.loader.show = true;
 
-		}
+				this.$axios.$post("/api/tickets/new", {
+					phase: this.input.phase.value,
+					title: this.input.title,
+					description: this.input.description,
+					priority: this.input.priority.value,
+				});
+			}
+		},
 	}
 }
 </script>

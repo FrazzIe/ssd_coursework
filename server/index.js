@@ -121,6 +121,32 @@ app.post("/tickets/new", function(req, res) {
 	})(req, res);
 });
 
+app.get("/tickets/view/:id", function(req, res) {
+	passport.authenticate("jwt", { session: false }, (err, user, info) => {
+		if (err) //if there is an error then
+			return res.status(500).json({ error: err });
+
+		if (!user)
+			return res.status(403).json({ error: info.message });
+
+		if (!permission.check(user.scope, "canCreateTicket"))
+			return res.status(403).json({ error: "You do not have permission to view a ticket!" });
+
+		mysql.query(mysql.queries.getTicketAssignee, []).then((result) => {
+			if (typeof result[0] === "undefined")
+				res.status(404).json({ error: "This ticket no longer exists" });
+			else
+				mysql.query(mysql.queries.getTicketAssignee, []).then((result) => {
+
+				}).catch((error) => {
+					
+				});
+		}).catch((error) => {
+			
+		});
+	})(req, res);
+});
+
 module.exports = {
 	path: "/api",
 	handler: app

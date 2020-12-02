@@ -6,6 +6,7 @@ var queries = { //list of mysql queries
 	getUser: "SELECT users.id, users.username, users.password, users.group FROM users WHERE users.username = ?",
 	getUserById: "SELECT users.id, users.username, users.group FROM users WHERE users.id = ?",
 	getTicketAssignee: "SELECT users.id FROM users WHERE users.group = 'developer' ORDER BY RAND() LIMIT 1",
+	getTicketById: "SELECT tickets.id, tickets.creator_id, tickets.assigned_id, UNIX_TIMESTAMP(tickets.created_at), tickets.title, tickets.status, tickets.discover_phase, tickets.priority FROM tickets WHERE tickets.id = ?",
 	createUser: "INSERT INTO users (`username`, `password`) VALUES (?, ?)",
 	createTicket: "INSERT INTO tickets (`creator_id`, `assigned_id`, `title`, `discover_phase`, `priority`) VALUES (?, ?, ?, ?, ?)",
 	createComment: "INSERT INTO ticket_comments (`ticket_id`, `creator_id`, `comment`) VALUES (?, ?, ?)",

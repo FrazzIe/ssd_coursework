@@ -3,7 +3,7 @@
 		<v-col sm="7" md="6" lg="5" xl="4">
 			<v-card class="elevation-12" tile>
 
-			</v-card> 
+			</v-card>
 		</v-col>
 		<snack-bar :snack-message.sync="snack.message" :snack-color="snack.color"></snack-bar>
 		<loader :message="loader.message" :show="loader.show"></loader>
@@ -24,8 +24,8 @@ export default {
 		loader,
 	},
 	middleware: ["auth", "permissions"],
-    auth: true,
-    permissions: false,
+	auth: true,
+	permissions: false,
 	data: () => ({
 		snack: {
 			message: "",
@@ -41,13 +41,17 @@ export default {
 	},
 	methods: {
 
-    },
-    validate({ params }) {
-        return !isNaN(+params.id);
-    },
-    async asyncData({ params, error, $axios }) {
-        const { ticket } = await $axios.$get(`/api/tickets/view/${+params.id}`);
-        return ticket;
-    }
+	},
+	validate({ params }) {
+		return !isNaN(+params.id);
+	},
+	async asyncData({ params, error, $axios }) {
+		const ticket = await $axios.$get(`/api/tickets/view/${+params.id}`).catch(err => {
+			if (err.response && err.response.data && err.response.data.error)
+				error({ message: err.response.data.error, statusCode: err.response.status })
+		});
+
+		return { ticket };
+	}
 }
 </script>

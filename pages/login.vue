@@ -95,11 +95,11 @@ export default {
 
 				this.$axios.post("/api/auth/register", { data: this.input }).then((resp) => {
 					this.loader.show = false;
-					if (resp && resp.data) {
-						if (resp.data.error) {
+					if (resp) {
+						if (resp.error) {
 							this.snack.color = "error";
-							this.snack.message = resp.data.error;
-							console.log(resp.data.error);
+							this.snack.message = resp.error;
+							console.log(resp.error);
 							return;
 						}
 

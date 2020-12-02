@@ -132,17 +132,24 @@ app.get("/tickets/view/:id", function(req, res) {
 		if (!permission.check(user.scope, "canCreateTicket"))
 			return res.status(403).json({ error: "You do not have permission to view a ticket!" });
 
-		mysql.query(mysql.queries.getTicketAssignee, []).then((result) => {
-			if (typeof result[0] === "undefined")
+		if (!req.params.id) { //check if param exists
+			return res.status(404).json({ error: "Invalid ticket id" });
+		} else if (isNaN(req.params.id)) { //check if param is not a number
+			return res.status(404).json({ error: "Invalid ticket id" });
+		}
+
+		mysql.query(mysql.queries.getTicketById, [req.params.id]).then((ticket) => {
+			if (typeof ticket[0] === "undefined")
 				res.status(404).json({ error: "This ticket no longer exists" });
 			else
-				mysql.query(mysql.queries.getTicketAssignee, []).then((result) => {
-
+				mysql.query(mysql.queries.getTicketComments, [req.params.id]).then((comments) => {
+					ticket[0].comments = comments;
+					res.status(200).json(ticket[0]);
 				}).catch((error) => {
-					
+					res.status(500).json({ error: "Something went wrong" });
 				});
 		}).catch((error) => {
-			
+			res.status(500).json({ error: "Something went wrong" });
 		});
 	})(req, res);
 });

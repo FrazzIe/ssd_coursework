@@ -43,7 +43,7 @@
 
 							<v-list nav dense>
 								<v-list-item-group>						
-									<v-list-item to="/tickets/view" nuxt>
+									<v-list-item v-if="this.$permission.check(this.loggedInUser.scope, 'canCreateTicket')" to="/tickets/view/me" nuxt>
 										<v-list-item-icon>
 											<v-icon>mdi-file-document-edit</v-icon>
 										</v-list-item-icon>

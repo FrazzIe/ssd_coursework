@@ -205,7 +205,7 @@ export default {
 							return;
 						}
 
-						this.$router.push({	path: "/tickets/view/" + resp.id, force: true });
+						window.location.reload(true);
 					}
 				}).catch((error) => {
 					this.loader.show = false;
@@ -219,10 +219,46 @@ export default {
 			}
 		},
 		closeTicket() {
+			this.$axios.$post(`/api/tickets/close/${this.$route.params.id}`).then((resp) => {
+				if (resp) {
+					if (resp.error) {
+						this.snack.color = "error";
+						this.snack.message = resp.error;
+						console.log(resp.error);
+						return;
+					}
 
+					window.location.reload(true);
+				}
+			}).catch((error) => {
+				if (error.response && error.response.data && error.response.data.error) {
+					console.log(error.response.data.error);
+					this.snack.color = "error";
+					this.snack.message = error.response.data.error;
+				} else
+					console.log(error.message);
+			});			
 		},
 		solveTicket() {
+			this.$axios.$post(`/api/tickets/solve/${this.$route.params.id}`).then((resp) => {
+				if (resp) {
+					if (resp.error) {
+						this.snack.color = "error";
+						this.snack.message = resp.error;
+						console.log(resp.error);
+						return;
+					}
 
+					window.location.reload(true);
+				}
+			}).catch((error) => {
+				if (error.response && error.response.data && error.response.data.error) {
+					console.log(error.response.data.error);
+					this.snack.color = "error";
+					this.snack.message = error.response.data.error;
+				} else
+					console.log(error.message);
+			});	
 		},
 		scrollToEnd() {
 			this.$refs.commentList.$el.scrollTop = this.$refs.commentList.$el.scrollHeight;

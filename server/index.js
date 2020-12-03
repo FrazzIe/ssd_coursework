@@ -196,6 +196,82 @@ app.post("/tickets/comment/:id", function(req, res) {
 	})(req, res);	
 });
 
+app.post("/tickets/close/:id", function(req, res) {
+	passport.authenticate("jwt", { session: false }, (err, user, info) => {
+		if (err) //if there is an error then
+			return res.status(500).json({ error: err });
+
+		if (!user)
+			return res.status(403).json({ error: info.message });
+
+		if (!req.params.id) { //check if param exists
+			return res.status(404).json({ error: "Invalid ticket id" });
+		} else if (isNaN(req.params.id)) { //check if param is not a number
+			return res.status(404).json({ error: "Invalid ticket id" });
+		}
+
+		mysql.query(mysql.queries.getTicketById, [req.params.id]).then((ticket) => {
+			if (typeof ticket[0] === "undefined")
+				res.status(404).json({ error: "This ticket no longer exists" });
+			else if (ticket[0].status == 2)
+				res.status(200).json({ error: "This ticket is already closed" });
+			else if (ticket[0].assigned_id == user.id || permission.check(user.scope, "canCloseTicket"))
+				mysql.query(mysql.queries.closeTicket, [req.params.id]).then((ticket) => {
+					mysql.query(mysql.queries.createComment, [req.params.id, user.id, config.ticketActions.messages.close]).then((comment) => {
+						res.status(200).json({ id: req.params.id });
+					}).catch((error) => {
+						res.status(500).json({ error: "Something went wrong" });
+					});
+				}).catch((error) => {
+					res.status(500).json({ error: "Something went wrong" });
+				});			
+			else
+				return res.status(403).json({ error: "You do not have permission to close a ticket!" });
+		}).catch((error) => {
+			res.status(500).json({ error: "Something went wrong" });
+		});
+	})(req, res);	
+});
+
+app.post("/tickets/solve/:id", function(req, res) {
+	passport.authenticate("jwt", { session: false }, (err, user, info) => {
+		if (err) //if there is an error then
+			return res.status(500).json({ error: err });
+
+		if (!user)
+			return res.status(403).json({ error: info.message });
+
+		if (!req.params.id) { //check if param exists
+			return res.status(404).json({ error: "Invalid ticket id" });
+		} else if (isNaN(req.params.id)) { //check if param is not a number
+			return res.status(404).json({ error: "Invalid ticket id" });
+		}
+
+		mysql.query(mysql.queries.getTicketById, [req.params.id]).then((ticket) => {
+			if (typeof ticket[0] === "undefined")
+				res.status(404).json({ error: "This ticket no longer exists" });
+			else if (ticket[0].status == 2)
+				res.status(200).json({ error: "This ticket cannot be solved as its closed" });
+			else if (ticket[0].status == 1)
+				res.status(200).json({ error: "This ticket is already solved" });
+			else if (ticket[0].assigned_id == user.id || permission.check(user.scope, "canCloseTicket"))
+				mysql.query(mysql.queries.solveTicket, [req.params.id]).then((ticket) => {
+					mysql.query(mysql.queries.createComment, [req.params.id, user.id, config.ticketActions.messages.solve]).then((comment) => {
+						res.status(200).json({ id: req.params.id });
+					}).catch((error) => {
+						res.status(500).json({ error: "Something went wrong" });
+					});
+				}).catch((error) => {
+					res.status(500).json({ error: "Something went wrong" });
+				});			
+			else
+				return res.status(403).json({ error: "You do not have permission to close a ticket!" });
+		}).catch((error) => {
+			res.status(500).json({ error: "Something went wrong" });
+		});
+	})(req, res);	
+});
+
 module.exports = {
 	path: "/api",
 	handler: app

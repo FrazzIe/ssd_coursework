@@ -15,6 +15,12 @@ const config = {
 	jwt: {
 		secret: process.env.JWT_SECRET
 	},
+	ticketActions: {
+		messages: {
+			close: "has marked this ticket as Closed.",
+			solve: "has marked this ticket as Solved.",
+		}
+	}
 }
 
 module.exports = config;

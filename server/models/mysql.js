@@ -11,6 +11,8 @@ var queries = { //list of mysql queries
 	createUser: "INSERT INTO users (`username`, `password`) VALUES (?, ?)",
 	createTicket: "INSERT INTO tickets (`creator_id`, `assigned_id`, `title`, `discover_phase`, `priority`) VALUES (?, ?, ?, ?, ?)",
 	createComment: "INSERT INTO ticket_comments (`ticket_id`, `creator_id`, `comment`) VALUES (?, ?, ?)",
+	closeTicket: "UPDATE tickets SET tickets.status = 2 WHERE tickets.id = ?",
+	solveTicket: "UPDATE tickets SET tickets.status = 1 WHERE tickets.id = ?",
 }
 
 function execute(sql, params) { //asynchronous sql execute function

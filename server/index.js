@@ -102,7 +102,7 @@ app.post("/tickets/new", function(req, res) {
 		if (!permission.check(user.scope, "useTestingPhase") && req.body.data.phase == 1)
 			return res.status(200).json({ error: "You don't have permission to use the testing discovery phase" });
 
-		mysql.query(mysql.queries.getTicketAssignee, []).then((result) => {
+		mysql.query(mysql.queries.getTicketAssignee, [user.id]).then((result) => {
 			if (typeof result[0] === "undefined")
 				res.status(500).json({ error: "Unable to assign ticket to an active team member" });
 			else

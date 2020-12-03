@@ -44,18 +44,24 @@
 
 				<v-divider></v-divider>
 
-				<v-list two-line>
-					<template v-for="(item, index) in filteredTickets">
-						<v-list-item :key="item.id + '-1'">
-							<v-list-item-content>
-								<v-list-item-title>aa</v-list-item-title>
-								<span class="text--primary comment">{{ item }}</span>
-								<v-list-item-subtitle>{{ formatDate(item.latest_comment_timestamp) }}</v-list-item-subtitle>
-							</v-list-item-content>
-						</v-list-item>
+				<v-list three-line>
+					<v-list-item-group>
+						<template v-for="(item, index) in filteredTickets">
+							<v-list-item :key="item.id + '-1'" :to="'/tickets/view/' + item.id" nuxt>
+								<v-list-item-content>
+									<v-list-item-title>{{ item.title }}</v-list-item-title>
+									<v-list-item-subtitle class="text--primary">{{ item.latest_comment_author }} &mdash; {{ item.latest_comment }}</v-list-item-subtitle>
+									<v-list-item-subtitle>Priority: {{ ticketPriority(item.priority) }}, Discovery Phase: {{ ticketPhase(item.discover_phase) }}</v-list-item-subtitle>
+								</v-list-item-content>
 
-						<v-divider v-if="index < tickets.length - 1" :key="item.id + '-2'"></v-divider>
-					</template>
+								<v-list-item-action>
+									{{ ticketStatus(item.status) }}
+								</v-list-item-action>
+							</v-list-item>
+
+							<v-divider v-if="index < tickets.length - 1" :key="item.id + '-2'"></v-divider>
+						</template>
+					</v-list-item-group>
 				</v-list>
 			</v-card>
 		</v-col>
@@ -144,11 +150,20 @@ export default {
 				tickets = tickets.sort((x, y) => x.latest_comment_timestamp - y.latest_comment_timestamp)
 	
 			return tickets;
-		}
+		},
 	},
 	methods: {
 		formatDate(unix) {
 			return new Date(unix * 1000).toUTCString();
+		},
+		ticketStatus(status) {
+			return this.status[status].text;
+		},
+		ticketPhase(phase) {
+			return this.phases[phase].text;
+		},
+		ticketPriority(priority) {
+			return this.priority[priority].text;
 		},
 	},
 	async asyncData({ error, $axios }) {

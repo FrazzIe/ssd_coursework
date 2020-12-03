@@ -146,7 +146,7 @@ export default {
 	},
 	middleware: ["auth", "permissions"],
 	auth: true,
-	permissions: false,
+	permissions: ["admin", "developer", "tester", "client"],
 	data: () => ({
 		input: {
 			comment: "",

@@ -8,6 +8,7 @@ class Permission {
 			canCreateTicket: ["admin", "developer", "tester", "client"],
 			useDevelopmentPhase: ["admin", "developer"],
 			useTestingPhase: ["admin", "developer", "tester"],
+			canViewTicket: ["admin", "developer"],
 		};
 	}
 

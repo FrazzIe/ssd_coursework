@@ -45,16 +45,16 @@
 				<v-divider></v-divider>
 
 				<v-list two-line>
-					<template v-for="(item, index) in tickets">
+					<template v-for="(item, index) in filteredTickets">
 						<v-list-item :key="item.id + '-1'">
 							<v-list-item-content>
 								<v-list-item-title>aa</v-list-item-title>
-								<span class="text--primary comment">bb</span>
-								<v-list-item-subtitle>cc</v-list-item-subtitle>
+								<span class="text--primary comment">{{ item }}</span>
+								<v-list-item-subtitle>{{ formatDate(item.latest_comment_timestamp) }}</v-list-item-subtitle>
 							</v-list-item-content>
 						</v-list-item>
 
-						<v-divider v-if="index < ticket.comments.length - 1" :key="item.id + '-2'"></v-divider>
+						<v-divider v-if="index < tickets.length - 1" :key="item.id + '-2'"></v-divider>
 					</template>
 				</v-list>
 			</v-card>
@@ -123,8 +123,33 @@ export default {
 	}),
 	computed: {
 		...mapGetters(["loggedInUser"]),
+		filteredTickets() {
+			var tickets = this.tickets;
+
+			if (this.filters.enabled.phase && !!this.filters.phase)
+				tickets = tickets.filter(ticket => ticket.discover_phase == this.filters.phase.value);
+
+			if (this.filters.enabled.priority && !!this.filters.priority)
+				tickets = tickets.filter(ticket => ticket.priority == this.filters.priority.value);
+
+			if (this.filters.enabled.status && !!this.filters.status)
+				tickets = tickets.filter(ticket => ticket.status == this.filters.status.value);
+			
+			if (this.filters.assigned)
+				tickets = tickets.filter(ticket => ticket.assigned_id == this.loggedInUser.id);
+
+			if (this.filters.order.value)
+				tickets = tickets.sort((x, y) => y.latest_comment_timestamp - x.latest_comment_timestamp)
+			else
+				tickets = tickets.sort((x, y) => x.latest_comment_timestamp - y.latest_comment_timestamp)
+	
+			return tickets;
+		}
 	},
 	methods: {
+		formatDate(unix) {
+			return new Date(unix * 1000).toUTCString();
+		},
 	},
 	async asyncData({ error, $axios }) {
 		const tickets = await $axios.$get(`/api/tickets/view`).catch(err => {

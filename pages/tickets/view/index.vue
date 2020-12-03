@@ -85,7 +85,7 @@ export default {
 	},
 	middleware: ["auth", "permissions"],
 	auth: true,
-	permissions: false,
+	permissions: ["admin", "developer"],
 	data: () => ({
 		filters: {
 			phase: null,

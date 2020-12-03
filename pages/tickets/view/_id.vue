@@ -91,7 +91,7 @@
 					<v-card-actions>
 						<v-spacer></v-spacer>
 						<template v-if="ticket.status !== 2">
-							<v-btn text color="success">Comment</v-btn>
+							<v-btn type="submit" text color="success">Comment</v-btn>
 						</template>
 						<template v-else>
 							<v-icon color="error">mdi-lock</v-icon>

@@ -1,6 +1,6 @@
 <template>
 	<v-row justify="center" align="center">
-		<v-col sm="7" md="6" lg="5" xl="4">
+		<v-col sm="7" md="6" lg="5" xl="5">
 			<v-card class="elevation-12" tile>
 				<v-toolbar class="transparent" flat dense>
 					<v-toolbar-title>Tickets</v-toolbar-title>
@@ -17,19 +17,19 @@
 									<v-select label="Discovery Phase" placeholder="The phase an issue was discovered" :items="phases" item-text="text" item-value="value" return-object v-model="filters.phase"></v-select>
 								</v-col>
 								<v-col cols="3">
-									<v-checkbox label="Enable" v-model="filters.enabled.phase"></v-checkbox>
+									<v-checkbox class="float-right" label="Enable" v-model="filters.enabled.phase"></v-checkbox>
 								</v-col>
 								<v-col cols="9">
 									<v-select label="Priority Level" placeholder="Urgency of an issue" :items="priority" item-text="text" item-value="value" return-object v-model="filters.priority"></v-select>
 								</v-col>
 								<v-col cols="3">
-									<v-checkbox label="Enable" v-model="filters.enabled.priority"></v-checkbox>
+									<v-checkbox class="float-right" label="Enable" v-model="filters.enabled.priority"></v-checkbox>
 								</v-col>
 								<v-col cols="9">
 									<v-select label="Status" placeholder="e.g. Show only closed tickets" :items="status" item-text="text" item-value="value" return-object v-model="filters.status"></v-select>
 								</v-col>
 								<v-col cols="3">
-									<v-checkbox label="Enable" v-model="filters.enabled.status"></v-checkbox>
+									<v-checkbox class="float-right" label="Enable" v-model="filters.enabled.status"></v-checkbox>
 								</v-col>
 								<v-col cols="12">
 									<v-select label="Order" :items="order" item-text="text" item-value="value" return-object v-model="filters.order"></v-select>

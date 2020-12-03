@@ -77,7 +77,7 @@
 
 				<v-form ref="form" @submit.prevent="newComment">
 					<v-card-text>
-						<v-textarea label="Comment" placeholder="Leave a comment..." counter v-model="input.comment"
+						<v-textarea label="Comment" placeholder="Leave a comment..." counter v-model="input.comment" :disabled="ticket.status == 2"
 							:rules="[
 								() => !!input.comment || 'A comment is required',
 								() => !!input.comment && input.comment.length >= 20 || 'Comment must be at least 20 characters long',
@@ -89,6 +89,12 @@
 					<v-divider></v-divider>
 
 					<v-card-actions>
+						<template v-if="canCloseTicket">
+							<v-btn text color="error" @click="closeTicket">Close</v-btn>
+						</template>
+						<template v-if="canSolveTicket">
+							<v-btn text color="primary" @click="solveTicket">Solve</v-btn>
+						</template>					
 						<v-spacer></v-spacer>
 						<template v-if="ticket.status !== 2">
 							<v-btn type="submit" text color="success">Comment</v-btn>
@@ -168,6 +174,12 @@ export default {
 		ticketPriority() {
 			return this.priority[this.ticket.priority];
 		},
+		canCloseTicket() {
+			return this.ticket.status !== 2 && (this.$permission.check(this.loggedInUser.scope, 'canCloseTicket') || this.loggedInUser.id == this.ticket.assigned_id);
+		},
+		canSolveTicket() {
+			return (this.ticket.status !== 2 && this.ticket.status !== 1) && (this.$permission.check(this.loggedInUser.scope, 'canCloseTicket') || this.loggedInUser.id == this.ticket.assigned_id);
+		}
 	},
 	methods: {
 		formatDate(unix) {
@@ -205,6 +217,12 @@ export default {
 						console.log(error.message);
 				});
 			}
+		},
+		closeTicket() {
+
+		},
+		solveTicket() {
+
 		},
 		scrollToEnd() {
 			this.$refs.commentList.$el.scrollTop = this.$refs.commentList.$el.scrollHeight;

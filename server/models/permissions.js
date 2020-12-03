@@ -9,6 +9,7 @@ class Permission {
 			useDevelopmentPhase: ["admin", "developer"],
 			useTestingPhase: ["admin", "developer", "tester"],
 			canViewTicket: ["admin", "developer"],
+			canCloseTicket: ["admin", "developer"],
 		};
 	}
 

@@ -125,7 +125,8 @@ export default {
 		loader: {
 			message: "",
 			show: false,
-		}
+		},
+		tickets: [],
 	}),
 	computed: {
 		...mapGetters(["loggedInUser"]),

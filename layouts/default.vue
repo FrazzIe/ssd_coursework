@@ -7,6 +7,10 @@
 			<v-spacer></v-spacer>
 			<v-toolbar-items>
 				<template v-if="isAuthenticated">
+					<v-btn v-if="this.$permission.check(this.loggedInUser.scope, 'canViewTicket')" elevation="0" to="/tickets/view" nuxt exact>
+						<v-icon left>mdi-file-document-multiple</v-icon>
+						VIEW TICKETS
+					</v-btn>
 					<v-btn v-if="this.$permission.check(this.loggedInUser.scope, 'canCreateTicket')" elevation="0" to="/tickets/new" nuxt exact>
 						<v-icon left>mdi-file-document-edit</v-icon>
 						OPEN TICKET

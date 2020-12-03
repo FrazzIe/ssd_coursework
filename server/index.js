@@ -27,7 +27,7 @@ app.post("/auth/login", (req, res) => { //When /login is requested by a user
 app.get("/auth/user", (req, res) => {
 	passport.authenticate("jwt", { session: false }, (err, user, info) => {
 		if (err) //if there is an error then
-			return res.status(500).json({ error: err });
+			return res.status(500).json({ error: err.message });
 
 		if (!user)
 			return res.status(403).json({ error: info.message });
@@ -70,7 +70,7 @@ app.post("/auth/logout", function(req, res) {
 app.post("/tickets/new", function(req, res) {
 	passport.authenticate("jwt", { session: false }, (err, user, info) => {
 		if (err) //if there is an error then
-			return res.status(500).json({ error: err });
+			return res.status(500).json({ error: err.message });
 
 		if (!user)
 			return res.status(403).json({ error: info.message });
@@ -124,7 +124,7 @@ app.post("/tickets/new", function(req, res) {
 app.get("/tickets/view/:id", function(req, res) {
 	passport.authenticate("jwt", { session: false }, (err, user, info) => {
 		if (err) //if there is an error then
-			return res.status(500).json({ error: err });
+			return res.status(500).json({ error: err.message });
 
 		if (!user)
 			return res.status(403).json({ error: info.message });
@@ -159,7 +159,7 @@ app.get("/tickets/view/:id", function(req, res) {
 app.post("/tickets/comment/:id", function(req, res) {
 	passport.authenticate("jwt", { session: false }, (err, user, info) => {
 		if (err) //if there is an error then
-			return res.status(500).json({ error: err });
+			return res.status(500).json({ error: err.message });
 
 		if (!user)
 			return res.status(403).json({ error: info.message });
@@ -201,7 +201,7 @@ app.post("/tickets/comment/:id", function(req, res) {
 app.post("/tickets/close/:id", function(req, res) {
 	passport.authenticate("jwt", { session: false }, (err, user, info) => {
 		if (err) //if there is an error then
-			return res.status(500).json({ error: err });
+			return res.status(500).json({ error: err.message });
 
 		if (!user)
 			return res.status(403).json({ error: info.message });
@@ -238,7 +238,7 @@ app.post("/tickets/close/:id", function(req, res) {
 app.post("/tickets/solve/:id", function(req, res) {
 	passport.authenticate("jwt", { session: false }, (err, user, info) => {
 		if (err) //if there is an error then
-			return res.status(500).json({ error: err });
+			return res.status(500).json({ error: err.message });
 
 		if (!user)
 			return res.status(403).json({ error: info.message });
@@ -277,7 +277,7 @@ app.post("/tickets/solve/:id", function(req, res) {
 app.get("/tickets/view", function(req, res) {
 	passport.authenticate("jwt", { session: false }, (err, user, info) => {
 		if (err) //if there is an error then
-			return res.status(500).json({ error: err });
+			return res.status(500).json({ error: err.message });
 
 		if (!user)
 			return res.status(403).json({ error: info.message });

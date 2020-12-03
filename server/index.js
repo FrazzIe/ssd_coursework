@@ -156,9 +156,7 @@ app.get("/tickets/view/:id", function(req, res) {
 	})(req, res);
 });
 
-app.post("/tickets/comment/:id", [
-	check("data.comment").escape(),
-], function(req, res) {
+app.post("/tickets/comment/:id", function(req, res) {
 	passport.authenticate("jwt", { session: false }, (err, user, info) => {
 		if (err) //if there is an error then
 			return res.status(500).json({ error: err });

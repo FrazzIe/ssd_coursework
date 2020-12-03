@@ -55,25 +55,11 @@
 
 				<v-toolbar class="transparent" flat dense>
 					<v-toolbar-title>Comments</v-toolbar-title>
-					<v-spacer></v-spacer>
-					<template v-if="ticket.status !== 2">
-						<v-tooltip right>
-							<template v-slot:activator="{ on, attrs }">
-								<v-btn icon v-bind="attrs" v-on="on" @click="commentDialog = true">
-									<v-icon color="primary">mdi-plus</v-icon>
-								</v-btn>
-							</template>
-							<span>Add comment</span>
-						</v-tooltip>
-					</template>
-					<template v-else>
-						<v-icon color="error">mdi-lock</v-icon>
-					</template>
 				</v-toolbar>
 
 				<v-divider></v-divider>
 
-				<v-list two-line>
+				<v-list two-line class="comments overflow scroll-bar" max-height="418">
 					<template v-for="(item, index) in ticket.comments">
 						<v-list-item :key="item.id">
 							<v-list-item-content>
@@ -86,6 +72,32 @@
 						<v-divider v-if="index < ticket.comments.length - 1" :key="index"></v-divider>
 					</template>
 				</v-list>
+
+				<v-divider></v-divider>
+
+				<v-form ref="form" @submit.prevent="newComment">
+					<v-card-text>
+						<v-textarea label="Comment" placeholder="Leave a comment..." counter v-model="input.comment"
+							:rules="[
+								() => !!input.comment || 'A comment is required',
+								() => !!input.comment && input.comment.length >= 20 || 'Comment must be at least 20 characters long',
+								() => !!input.comment && input.comment.length <= 2000 || 'Comment cannot contain more than 2000 characters',
+							]"
+						></v-textarea>
+					</v-card-text>
+
+					<v-divider></v-divider>
+
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<template v-if="ticket.status !== 2">
+							<v-btn text color="success">Comment</v-btn>
+						</template>
+						<template v-else>
+							<v-icon color="error">mdi-lock</v-icon>
+						</template>
+					</v-card-actions>
+				</v-form>
 			</v-card>
 		</v-col>
 		<snack-bar :snack-message.sync="snack.message" :snack-color="snack.color"></snack-bar>
@@ -94,6 +106,26 @@
 </template>
 
 <style>
+	.comments.overflow {
+		overflow-y: auto;
+	}
+	.scroll-bar::-webkit-scrollbar-track
+	{
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+		background-color: #F5F5F5;
+	}
+	.scroll-bar::-webkit-scrollbar
+	{
+		display: block;
+		height: 6px;
+		width: 6px;
+		background-color: #F5F5F5;
+	}
+	.scroll-bar::-webkit-scrollbar-thumb
+	{
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+		background-color: #555;
+	}
 </style>
 
 <script>
@@ -110,10 +142,12 @@ export default {
 	auth: true,
 	permissions: false,
 	data: () => ({
+		input: {
+			comment: "",
+		},
 		status: ["Open", "Solved", "Closed"],
 		phase: ["Development", "Testing", "Production"],
 		priority: ["Low", "Medium", "High"],
-		commentDialog: false,
 		snack: {
 			message: "",
 			color: "",
@@ -144,6 +178,11 @@ export default {
 				return "";
 			return str.charAt(0).toUpperCase() + str.slice(1);
 		},
+		newComment() {
+			if (this.$refs.form.validate()) {
+				//stuff
+			}
+		}
 	},
 	validate({ params }) {
 		return !isNaN(+params.id);

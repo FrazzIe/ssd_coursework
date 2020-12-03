@@ -193,7 +193,7 @@ export default {
 							return;
 						}
 
-						this.$router.push({	path: "/tickets/view/" + resp.id });
+						this.$router.push({	path: "/tickets/view/" + resp.id, force: true });
 					}
 				}).catch((error) => {
 					this.loader.show = false;

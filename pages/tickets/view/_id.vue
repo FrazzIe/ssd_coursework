@@ -64,7 +64,7 @@
 						<v-list-item :key="item.id">
 							<v-list-item-content>
 								<v-list-item-title>{{ item.username }} - <span class="text-caption">{{ capitalise(item.group) }}</span></v-list-item-title>
-								<v-list-item-subtitle class="text--primary">{{ item.comment }}</v-list-item-subtitle>
+								<span class="text--primary">{{ item.comment }}</span>
 								<v-list-item-subtitle>{{ formatDate(item.created_at) }}</v-list-item-subtitle>
 							</v-list-item-content>
 						</v-list-item>

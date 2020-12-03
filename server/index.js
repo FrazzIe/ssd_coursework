@@ -156,6 +156,48 @@ app.get("/tickets/view/:id", function(req, res) {
 	})(req, res);
 });
 
+app.post("/tickets/comment/:id", [
+	check("data.comment").escape(),
+], function(req, res) {
+	passport.authenticate("jwt", { session: false }, (err, user, info) => {
+		if (err) //if there is an error then
+			return res.status(500).json({ error: err });
+
+		if (!user)
+			return res.status(403).json({ error: info.message });
+
+		if (!permission.check(user.scope, "canCreateTicket"))
+			return res.status(403).json({ error: "You do not have permission to create a comment!" });
+
+		if (!(req.body && req.body.data && req.body.data.comment))
+			return res.status(500).json({ error: "Invalid parameters" });
+
+		if (req.body.data.comment.length < 20 || req.body.data.comment.length > 2000)
+			return res.status(200).json({ error: "The comment must be between 20 and 2000 characters long" });
+
+		if (!req.params.id) { //check if param exists
+			return res.status(404).json({ error: "Invalid ticket id" });
+		} else if (isNaN(req.params.id)) { //check if param is not a number
+			return res.status(404).json({ error: "Invalid ticket id" });
+		}
+
+		mysql.query(mysql.queries.getTicketById, [req.params.id]).then((ticket) => {
+			if (typeof ticket[0] === "undefined")
+				res.status(404).json({ error: "This ticket no longer exists" });
+			else if (ticket[0].creator_id == user.id || ticket[0].assigned_id == user.id || permission.check(user.scope, "canViewTicket"))
+				mysql.query(mysql.queries.createComment, [req.params.id, user.id, req.body.data.comment]).then((comment) => {
+					res.status(200).json({ id: req.params.id });
+				}).catch((error) => {
+					res.status(500).json({ error: "Something went wrong" });
+				});
+			else
+				res.status(403).json({ error: "You do not have permission to comment on this ticket!" });
+		}).catch((error) => {
+			res.status(500).json({ error: "Something went wrong" });
+		});
+	})(req, res);	
+});
+
 module.exports = {
 	path: "/api",
 	handler: app

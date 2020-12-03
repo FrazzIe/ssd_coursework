@@ -17,8 +17,6 @@
 			<p class="text-body-1">
 				Here at STSS we make sure your application is bug free, by means of rigourous testing. Got an issue with your application? don't want to fix it yourself? Become a client of Safari Security Testing Services today! t&c's apply &mdash; &copy; 2020 Fraser Watt
 			</p>
-
-
 		</v-col>
 	</v-row>
 </template>

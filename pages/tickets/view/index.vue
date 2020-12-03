@@ -44,7 +44,14 @@
 
 				<v-divider></v-divider>
 
-				<v-list three-line>
+				<template v-if="filteredTickets.length == 0">
+					<v-card-text>
+						<p class="text-center text-caption">
+							No tickets to display!
+						</p>
+					</v-card-text>
+				</template>
+				<v-list three-line v-else>
 					<v-list-item-group>
 						<template v-for="(item, index) in filteredTickets">
 							<v-list-item :key="item.id + '-1'" :to="'/tickets/view/' + item.id" nuxt>
@@ -65,8 +72,6 @@
 				</v-list>
 			</v-card>
 		</v-col>
-		<snack-bar :snack-message.sync="snack.message" :snack-color="snack.color"></snack-bar>
-		<loader :message="loader.message" :show="loader.show"></loader>
 	</v-row>
 </template>
 
@@ -75,8 +80,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import snackBar from "@/components/snackBar";
-import loader from "@/components/loader";
 
 export default {
 	components: {
@@ -118,14 +121,6 @@ export default {
 			{ text: "Newest", value: true },
 			{ text: "Oldest", value: false },
 		],
-		snack: {
-			message: "",
-			color: "",
-		},
-		loader: {
-			message: "",
-			show: false,
-		},
 		tickets: [],
 	}),
 	computed: {

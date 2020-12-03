@@ -36,8 +36,6 @@
 				</v-list>
 			</v-card>
 		</v-col>
-		<snack-bar :snack-message.sync="snack.message" :snack-color="snack.color"></snack-bar>
-		<loader :message="loader.message" :show="loader.show"></loader>
 	</v-row>
 </template>
 
@@ -46,8 +44,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import snackBar from "@/components/snackBar";
-import loader from "@/components/loader";
 
 export default {
 	components: {
@@ -61,14 +57,6 @@ export default {
 		status: ["Open", "Solved", "Closed"],
 		phases: ["Development", "Testing", "Production"],
 		priority: ["Low", "Medium", "High"],
-		snack: {
-			message: "",
-			color: "",
-		},
-		loader: {
-			message: "",
-			show: false,
-		}
 	}),
 	computed: {
 		...mapGetters(["loggedInUser"]),

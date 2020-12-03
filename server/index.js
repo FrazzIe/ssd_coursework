@@ -348,6 +348,7 @@ app.get("/tickets/me", function(req, res) {
 		});
 	})(req, res);
 });
+
 module.exports = {
 	path: "/api",
 	handler: app

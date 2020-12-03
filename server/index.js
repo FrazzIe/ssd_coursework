@@ -182,6 +182,8 @@ app.post("/tickets/comment/:id", function(req, res) {
 		mysql.query(mysql.queries.getTicketById, [req.params.id]).then((ticket) => {
 			if (typeof ticket[0] === "undefined")
 				res.status(404).json({ error: "This ticket no longer exists" });
+			else if (ticket[0].status == 2)
+				res.status(200).json({ error: "You cannot comment on a closed ticket" });
 			else if (ticket[0].creator_id == user.id || ticket[0].assigned_id == user.id || permission.check(user.scope, "canViewTicket"))
 				mysql.query(mysql.queries.createComment, [req.params.id, user.id, req.body.data.comment]).then((comment) => {
 					res.status(200).json({ id: req.params.id });

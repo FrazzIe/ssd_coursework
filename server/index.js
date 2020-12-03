@@ -274,6 +274,24 @@ app.post("/tickets/solve/:id", function(req, res) {
 	})(req, res);	
 });
 
+app.get("/tickets/view", function(req, res) {
+	passport.authenticate("jwt", { session: false }, (err, user, info) => {
+		if (err) //if there is an error then
+			return res.status(500).json({ error: err });
+
+		if (!user)
+			return res.status(403).json({ error: info.message });
+
+		if (!permission.check(user.scope, "canViewTicket"))
+			return res.status(403).json({ error: "You do not have permission to view tickets!" });
+
+		mysql.query(mysql.queries.getTickets, []).then((tickets) => {
+			res.status(200).json(tickets);
+		}).catch((error) => {
+			res.status(500).json({ error: "Something went wrong" });
+		});
+	})(req, res);
+});
 module.exports = {
 	path: "/api",
 	handler: app

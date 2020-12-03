@@ -59,7 +59,7 @@
 
 				<v-divider></v-divider>
 
-				<v-list two-line class="comments overflow scroll-bar" max-height="418">
+				<v-list ref="commentList" two-line class="overflow-y-auto scroll-bar" max-height="418">
 					<template v-for="(item, index) in ticket.comments">
 						<v-list-item :key="item.id + '-1'">
 							<v-list-item-content>
@@ -106,9 +106,6 @@
 </template>
 
 <style>
-	.comments.overflow {
-		overflow-y: auto;
-	}
 	.scroll-bar::-webkit-scrollbar-track
 	{
 		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
@@ -208,6 +205,9 @@ export default {
 						console.log(error.message);
 				});
 			}
+		},
+		scrollToEnd() {
+			this.$refs.commentList.$el.scrollTop = this.$refs.commentList.$el.scrollHeight;
 		}
 	},
 	validate({ params }) {
@@ -220,6 +220,12 @@ export default {
 		});
 
 		return { ticket };
+	},
+	mounted() {
+		this.scrollToEnd();
+	},
+	updated() {
+		this.scrollToEnd();
 	}
 }
 </script>

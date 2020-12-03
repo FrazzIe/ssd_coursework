@@ -61,7 +61,7 @@
 
 				<v-list two-line class="comments overflow scroll-bar" max-height="418">
 					<template v-for="(item, index) in ticket.comments">
-						<v-list-item :key="item.id">
+						<v-list-item :key="item.id + '-1'">
 							<v-list-item-content>
 								<v-list-item-title>{{ item.username }} - <span class="text-caption">{{ capitalise(item.group) }}</span></v-list-item-title>
 								<span class="text--primary">{{ item.comment }}</span>
@@ -69,7 +69,7 @@
 							</v-list-item-content>
 						</v-list-item>
 
-						<v-divider v-if="index < ticket.comments.length - 1" :key="index"></v-divider>
+						<v-divider v-if="index < ticket.comments.length - 1" :key="item.id + '-2'"></v-divider>
 					</template>
 				</v-list>
 

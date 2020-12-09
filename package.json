@@ -1,13 +1,31 @@
 {
   "name": "bug_tracker",
   "version": "1.0.0",
-  "private": true,
+  "description": "A support ticket system for tracking bugs",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrazzIe/ssd_coursework.git"
+  },
+  "keywords": [
+    "bug",
+    "ticket",
+    "creator",
+    "admin",
+    "support",
+    "tracker",
+  ],
+  "author": "Fraser Watt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FrazzIe/ssd_coursework/issues"
+  },
+  "homepage": "https://github.com/FrazzIe/ssd_coursework#readme",
   "dependencies": {
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.12.3",

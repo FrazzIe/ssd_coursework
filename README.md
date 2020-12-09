@@ -64,4 +64,4 @@ $ yarn start
 | Client123          | Client123@          | client    |
 | Tester123          | Tester123@          | tester    |
 | Developer123       | Developer123@       | developer |
-| Admin123           | Admin123            | admin     |
+| Admin123           | Admin123@           | admin     |

@@ -349,10 +349,6 @@ app.get("/tickets/me", function(req, res) {
 	})(req, res);
 });
 
-app.listen(config.app.port, () => { //make app listen for port
-	console.log("bug_tracker listening on port " + config.app.port);
-});
-
 module.exports = {
 	path: "/api",
 	handler: app

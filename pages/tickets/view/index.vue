@@ -82,10 +82,6 @@
 import { mapGetters } from "vuex";
 
 export default {
-	components: {
-		snackBar,
-		loader,
-	},
 	middleware: ["auth", "permissions"],
 	auth: true,
 	permissions: ["admin", "developer"],

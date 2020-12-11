@@ -41,23 +41,26 @@ const getMatchedComponents = (route, matches = false) => {
 }
 
 export default function (context) {
+	//Disable middleware if auth if disabled or guest mode is enabled or permissions check is disabled
 	if (routeOption(context.route, "auth", false) || routeOption(context.route, "auth", "guest") || routeOption(context.route, "permissions", false)) {
 		return;
 	}
 
-	// Disable middleware if no route was matched to allow 404/error page
+	//Disable middleware if no route was matched to allow 404/error page
 	const matches = [];
 	const Components = getMatchedComponents(context.route, matches);
 	if (!Components.length) {
 		return;
 	}
 
+	//Disable middleware if not logged in
 	if (!context.$auth.$state.loggedIn) {
 		return;
 	}
 
 	const user = context.$auth.$state.user;
 
+	//Check if user has permission scope, redirect if not
 	if (!user.scope || !routeOption(context.route, "permissions", user.scope, true)) {
 		context.$auth.redirect("home");
 	}

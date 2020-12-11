@@ -59,7 +59,8 @@ INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `group`) VALUES
 	(2, 'Client123', '$argon2i$v=19$m=4096,t=3,p=1$8bX1vbHLjBtS+uCBNohzzA$CtWdWqiESDKaUN45Nl72+pnvhoEK19gYBuuieMc/LPM', '2020-12-03 19:18:05', 'client'),
 	(3, 'Tester123', '$argon2i$v=19$m=4096,t=3,p=1$G9x0+TUWCtyP07nXik6sUg$NgoWlBjurbK3bxsWu8y+EOYnUh12iZoLEN/eCoADUl4', '2020-12-03 19:18:19', 'tester'),
 	(4, 'Developer123', '$argon2i$v=19$m=4096,t=3,p=1$y2rnJsqfRFoIpvmNqWt4aw$Mz8ABurogfvV9nm+u1blL2pc1vQP/+Gh0pv3qXaDgzw', '2020-12-03 19:18:41', 'developer'),
-	(5, 'Admin123', '$argon2i$v=19$m=4096,t=3,p=1$Fm3eshnuB51YrGZnwsU/mA$VLUnayqqJz8s9PlmbwKhA4FnHHkEqBk5wSIiRuu3lms', '2020-12-03 19:19:12', 'admin');
+	(5, 'Admin123', '$argon2i$v=19$m=4096,t=3,p=1$Fm3eshnuB51YrGZnwsU/mA$VLUnayqqJz8s9PlmbwKhA4FnHHkEqBk5wSIiRuu3lms', '2020-12-03 19:19:12', 'admin'),
+	(6,	'Developer1234', '$argon2i$v=19$m=4096,t=3,p=1$i1qPIICTAbwfkpD55YIz9Q$EsWZu/Sfxi0353Oj55sR2QreS5Vx2T7imqL6L1Rg6n0', '2020-12-11 19:12:20', 'developer');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

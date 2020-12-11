@@ -5,6 +5,9 @@ if (dotenv.error) { //throw an error if the environment vars failed to load
 }
 
 const config = {
+	app: {
+		port: process.env.PORT || 3000
+	},
 	mysql: {
 		connectionLimit: 10,
 		host: process.env.MYSQL_HOST,
